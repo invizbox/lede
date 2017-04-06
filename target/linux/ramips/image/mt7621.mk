@@ -42,6 +42,16 @@ define Device/mt7621
 endef
 TARGET_DEVICES += mt7621
 
+define Device/invizboxgo
+  DTS := INVIZBOXGO
+  IMAGE_SIZE := $(ralink_default_fw_size_64M)
+  DEVICE_TITLE := InvizBoxGo
+  DEVICE_PACKAGES := kmod-usb-core kmod-usb3 kmod-usb-hid \
+		kmod-ledtrig-heartbeat kmod-ata-core kmod-ata-ahci \
+		kmod-rtc-pcf8563 kmod-i2c-mt7621 kmod-mt7603e
+endef
+TARGET_DEVICES += invizboxgo
+
 define Device/wsr-600
   DTS := WSR-600
   IMAGE_SIZE := $(ralink_default_fw_size_16M)

@@ -135,6 +135,7 @@ platform_check_image() {
 	whr-g300n|\
 	widora-neo|\
 	witi|\
+	invizboxgo|\
 	wizfi630a|\
 	wl-330n|\
 	wl-330n3g|\

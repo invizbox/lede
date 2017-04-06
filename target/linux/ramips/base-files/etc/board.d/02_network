@@ -88,6 +88,7 @@ ramips_setup_interfaces()
 	whr-300hp2|\
 	whr-600d|\
 	witi|\
+	invizboxgo|\
 	wndr3700v5|\
 	wsr-1166|\
 	wsr-600|\

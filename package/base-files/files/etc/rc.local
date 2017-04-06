@@ -1,4 +1,6 @@
 # Put your custom commands here that should be executed once
 # the system init finished. By default this file does nothing.
+#MT7621 specific
+echo 2048 > /proc/sys/vm/min_free_kbytes
 
 exit 0

@@ -460,6 +460,9 @@ ramips_board_detect() {
 	*"WiTi")
                 name="witi"
 		;;
+	*"InvizBoxGo")
+		name="invizboxgo"
+		;;
 	*"WIZARD 8800")
 		name="wizard8800"
 		;;

@@ -53,7 +53,6 @@ define Package/base-files/conffiles
 /etc/sysupgrade.conf
 /etc/config/
 /etc/dropbear/
-/etc/crontabs/
 /etc/sysctl.d/local.conf
 /etc/sysctl.d/
 /etc/iproute2/rt_tables
