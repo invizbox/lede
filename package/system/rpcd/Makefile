@@ -11,11 +11,10 @@ PKG_NAME:=rpcd
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL=$(LEDE_GIT)/project/rpcd.git
+PKG_SOURCE_URL=git@git.invizbox.net:3rdparty/rpcd.git
 PKG_SOURCE_DATE:=2016-12-03
-PKG_SOURCE_VERSION:=0577cfc1acdbaf30c31090e75045ba58d6dd8a78
+PKG_SOURCE_VERSION:=5ce3d36ee9f1d07eabc1e4ce163fe33fd70d9dd2
 PKG_MAINTAINER:=Jo-Philipp Wich <jo@mein.io>
-PKG_MIRROR_HASH:=bbcd750df4867a57604e3b922e28f7a019cf940c3586d813d88001dc314e2a1c
 
 PKG_LICENSE:=ISC
 PKG_LICENSE_FILES:=
@@ -92,4 +91,3 @@ endef
 $(eval $(call BuildPackage,rpcd))
 $(eval $(call BuildPlugin,file,,Provides ubus calls for file and directory operations.))
 $(eval $(call BuildPlugin,rpcsys,,Provides ubus calls for sysupgrade and password changing.))
-$(eval $(call BuildPlugin,iwinfo,+libiwinfo,Provides ubus calls for accessing iwinfo data.))
