@@ -218,6 +218,7 @@ get_status_led() {
 		;;
 	w306r-v20|\
 	witi|\
+	invizboxgo|\
 	zbt-wr8305rt)
 		status_led="$board:green:sys"
 		;;

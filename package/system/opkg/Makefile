@@ -59,6 +59,7 @@ endef
 
 define Package/opkg/conffiles
 /etc/opkg.conf
+/etc/opkg_clearnet.conf
 /etc/opkg/keys/
 /etc/opkg/customfeeds.conf
 endef
@@ -86,6 +87,7 @@ define Package/opkg/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_DATA) ./files/customfeeds.conf $(1)/etc/opkg/customfeeds.conf
 	$(INSTALL_DATA) ./files/opkg$(2).conf $(1)/etc/opkg.conf
+	$(INSTALL_DATA) ./files/opkg_clearnet.conf $(1)/etc/opkg_clearnet.conf
 	$(call FeedSourcesAppend,$(1)/etc/opkg/distfeeds.conf)
 	$(VERSION_SED) $(1)/etc/opkg/distfeeds.conf
 	$(INSTALL_BIN) ./files/20_migrate-feeds $(1)/etc/uci-defaults/

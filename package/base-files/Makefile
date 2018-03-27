@@ -54,7 +54,6 @@ define Package/base-files/conffiles
 /etc/sysupgrade.conf
 /etc/config/
 /etc/dropbear/
-/etc/crontabs/
 /etc/sysctl.d/local.conf
 /etc/sysctl.d/
 /etc/iproute2/rt_tables
@@ -120,6 +119,8 @@ define Package/base-files/install
 			$(CP) $(PLATFORM_SUBDIR)/base-files/* $(1)/; \
 		fi; \
 	)
+
+	$(SED) 's,%V,$(VERSION_NUMBER),g' $(1)/etc/updateinfo
 
 	$(VERSION_SED) \
 		$(1)/etc/banner \
