@@ -67,6 +67,7 @@ platform_check_image() {
 	hpm|\
 	ht-tm02|\
 	hw550-3g|\
+	invizbox|\
 	ip2202|\
 	jhr-n805r|\
 	jhr-n825r|\
@@ -149,6 +150,7 @@ platform_check_image() {
 	whr-g300n|\
 	widora-neo|\
 	witi|\
+	invizboxgo|\
 	wizfi630a|\
 	wl-330n|\
 	wl-330n3g|\
