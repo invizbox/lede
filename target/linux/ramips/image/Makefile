@@ -225,6 +225,7 @@ BuildFirmware/Default4M/initramfs=$(call BuildFirmware/OF/initramfs,$(1),$(2),$(
 ralink_default_fw_size_8M=8060928
 ralink_default_fw_size_16M=16121856
 ralink_default_fw_size_32M=33226752
+ralink_default_fw_size_64M=64487424
 
 
 ifeq ($(SUBTARGET),rt288x)

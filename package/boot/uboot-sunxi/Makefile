@@ -114,6 +114,13 @@ define U-Boot/OLIMEX_A13_SOM
   BUILD_DEVICES:=sun5i-a13-olimex-som
 endef
 
+define U-Boot/InvizBox_2
+  BUILD_SUBTARGET:=cortexa7
+  NAME:=InvizBox 2
+  BUILD_DEVICES:=sun8i-h3-invizbox2
+  UENV:=invizbox2
+endef
+
 define U-Boot/Linksprite_pcDuino
   BUILD_SUBTARGET:=cortexa8
   NAME:=Linksprite pcDuino
@@ -223,6 +230,7 @@ UBOOT_TARGETS := \
 	Marsboard_A10 \
 	Mele_M9 \
 	OLIMEX_A13_SOM \
+	InvizBox_2 \
 	Linksprite_pcDuino \
 	Linksprite_pcDuino3 \
 	Lamobo_R1 \

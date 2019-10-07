@@ -90,6 +90,7 @@ ramips_setup_interfaces()
 	hc5661a|\
 	hc5962|\
 	hlk-rm04|\
+	invizboxgo|\
 	k2p|\
 	kn|\
 	kn_rc|\

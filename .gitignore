@@ -27,3 +27,5 @@ TAGS*~
 git-src
 .project
 .cproject
+.idea
+target/linux/sunxi/base-files/lib/upgrade/test.sh

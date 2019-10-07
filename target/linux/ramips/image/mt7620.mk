@@ -347,6 +347,14 @@ define Device/mlwg2
 endef
 TARGET_DEVICES += mlwg2
 
+define Device/invizbox
+  DTS := INVIZBOX
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
+  DEVICE_TITLE := InvizBox
+  DEVICE_PACKAGES := kmod-usb-ohci kmod-usb-ledtrig-usbport
+endef
+TARGET_DEVICES += invizbox
+
 define Device/mt7620a
   DTS := MT7620a
   DEVICE_TITLE := MediaTek MT7620a EVB

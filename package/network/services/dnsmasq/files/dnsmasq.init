@@ -874,8 +874,10 @@ dnsmasq_start()
 	fi
 
 	config_get user_dhcpscript $cfg dhcpscript
-	if has_handler || [ -n "$user_dhcpscript" ]; then
+	if has_handler ; then
 		xappend "--dhcp-script=$DHCPSCRIPT"
+	elif [ -n "$user_dhcpscript" ] ; then
+		xappend "--dhcp-script=$user_dhcpscript"
 	fi
 
 	config_get leasefile $cfg leasefile "/tmp/dhcp.leases"
@@ -1056,9 +1058,11 @@ add_interface_trigger()
 	local interface ignore
 
 	config_get interface "$1" interface
+	config_get instance "$1" instance ""
 	config_get_bool ignore "$1" ignore 0
 
-	[ -n "$interface" -a $ignore -eq 0 ] && procd_add_interface_trigger "interface.*" "$interface" /etc/init.d/dnsmasq reload
+	[ -n "$interface" -a $ignore -eq 0 ] && procd_add_interface_trigger "interface.*" "$interface" /etc/init.d/dnsmasq restart "$instance"
+	[ "${instance:0:3}" = "vpn" ] && procd_add_interface_trigger "interface.*" "vpn_${instance:3:4}" /etc/init.d/dnsmasq restart "$instance"
 }
 
 service_triggers()

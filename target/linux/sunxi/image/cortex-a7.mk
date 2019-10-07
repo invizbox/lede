@@ -118,6 +118,19 @@ endef
 TARGET_DEVICES += sun8i-h2-plus-orangepi-r1
 
 
+define Device/sun8i-h3-invizbox2
+  DEVICE_TITLE:=Invizbox 2
+  DEVICE_PACKAGES:=kmod-rtc-sunxi \
+	kmod-leds-gpio kmod-ledtrig-heartbeat \
+	kmod-brcmfmac brcmfmac-module-ap6356s wpad-basic kmod-rt2800-usb kmod-rt2x00-usb \
+	kmod-usb-ohci kmod-usb-storage kmod-usb2 swconfig wpad-mini
+  SUPPORTED_DEVICES:=invizbox,invizbox-2
+  SUNXI_DTS:=sun8i-h3-invizbox2
+endef
+
+TARGET_DEVICES += sun8i-h3-invizbox2
+
+
 define Device/sun8i-h3-nanopi-m1-plus
   DEVICE_TITLE:=FriendlyArm NanoPi M1 Plus
   DEVICE_PACKAGES:=kmod-rtc-sunxi \

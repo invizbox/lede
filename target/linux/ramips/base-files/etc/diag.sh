@@ -288,6 +288,7 @@ get_status_led() {
 	w306r-v20|\
 	mqmaker,witi-256m|\
 	mqmaker,witi-512m|\
+	invizboxgo|\
 	zbt-wr8305rt)
 		status_led="$boardname:green:sys"
 		;;
