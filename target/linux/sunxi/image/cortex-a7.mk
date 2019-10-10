@@ -123,7 +123,7 @@ define Device/sun8i-h3-invizbox2
   DEVICE_PACKAGES:=kmod-rtc-sunxi \
 	kmod-leds-gpio kmod-ledtrig-heartbeat \
 	kmod-brcmfmac brcmfmac-module-ap6356s wpad-basic kmod-rt2800-usb kmod-rt2x00-usb \
-	kmod-usb-ohci kmod-usb-storage kmod-usb2 swconfig wpad-mini
+	kmod-usb-ohci kmod-usb-storage kmod-fs-msdos kmod-usb2 swconfig wpad-mini
   SUPPORTED_DEVICES:=invizbox,invizbox-2
   SUNXI_DTS:=sun8i-h3-invizbox2
 endef
