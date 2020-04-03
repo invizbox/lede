@@ -29,7 +29,7 @@ validate_firewall_rule()
 }
 
 service_triggers() {
-	procd_add_reload_trigger firewall	
+	procd_add_reload_trigger firewall
 
 	procd_open_validate
 	validate_firewall_redirect
@@ -50,7 +50,17 @@ stop_service() {
 }
 
 reload_service() {
-	fw3 reload
+    (
+      flock -x 200
+      iptables-save > /tmp/iptables_dump
+      ip netns delete staging
+      ip netns add staging
+      ip netns exec staging iptables-restore /tmp/iptables_dump
+      ip netns exec staging fw3 reload
+      ip netns exec staging iptables-save > /tmp/iptables_dump
+      ip netns delete staging
+      iptables-restore /tmp/iptables_dump
+    ) 200>/var/lock/my_firewall_reload.lock
 }
 
 boot() {

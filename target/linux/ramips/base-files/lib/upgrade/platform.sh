@@ -77,6 +77,7 @@ platform_check_image() {
 	ht-tm02|\
 	hw550-3g|\
 	iodata,wn-gx300gr|\
+	invizbox|\
 	ip2202|\
 	jhr-n805r|\
 	jhr-n825r|\
@@ -179,6 +180,7 @@ platform_check_image() {
 	widora,neo-32m|\
 	mqmaker,witi-256m|\
 	mqmaker,witi-512m|\
+	invizboxgo|\
 	wizfi630a|\
 	wl-330n|\
 	wl-330n3g|\

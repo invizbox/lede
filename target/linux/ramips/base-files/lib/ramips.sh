@@ -247,6 +247,9 @@ ramips_board_detect() {
 	*"HW550-3G")
 		name="hw550-3g"
 		;;
+	*"InvizBox")
+		name="invizbox"
+		;;
 	*"IP2202")
 		name="ip2202"
 		;;
@@ -576,6 +579,9 @@ ramips_board_detect() {
 		;;
 	*"WHR-G300N")
 		name="whr-g300n"
+		;;
+	*"InvizBoxGo")
+		name="invizboxgo"
 		;;
 	*"WIZARD 8800")
 		name="wizard8800"
