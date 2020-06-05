@@ -1,0 +1,183 @@
+diff -Naur linux-4.14.89.old/arch/arm/boot/dts/Makefile linux-4.14.89/arch/arm/boot/dts/Makefile
+--- linux-4.14.89.old/arch/arm/boot/dts/Makefile	2018-12-22 11:23:35.930212255 +0800
++++ linux-4.14.89/arch/arm/boot/dts/Makefile	2018-12-22 11:24:42.825027500 +0800
+@@ -920,6 +920,7 @@
+ 	sun8i-h2-plus-orangepi-zero.dtb \
+ 	sun8i-h3-bananapi-m2-plus.dtb \
+ 	sun8i-h3-beelink-x2.dtb \
++	sun8i-h3-invizbox2.dtb \
+ 	sun8i-h3-nanopi-m1.dtb	\
+ 	sun8i-h3-nanopi-m1-plus.dtb \
+ 	sun8i-h3-nanopi-neo.dtb \
+diff -Naur linux-4.14.89.old/arch/arm/boot/dts/sun8i-h3-invizbox2.dts linux-4.14.89/arch/arm/boot/dts/sun8i-h3-invizbox2.dts
+--- linux-4.14.89.old/arch/arm/boot/dts/sun8i-h3-invizbox2.dts	1970-01-01 08:00:00.000000000 +0800
++++ linux-4.14.89/arch/arm/boot/dts/sun8i-h3-invizbox2.dts	2018-12-22 11:24:49.675171506 +0800
+@@ -0,0 +1,168 @@
++// SPDX-License-Identifier: (GPL-2.0+ or MIT)
++
++/*
++ * Copyright (C) 2018 InvizBox
++ */
++/dts-v1/;
++#include "sun8i-h3.dtsi"
++#include "sunxi-common-regulators.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
++
++/ {
++	model = "InvizBox 2";
++	compatible = "invizbox,invizbox-2", "allwinner,sun8i-h3";
++
++	aliases {
++		serial0 = &uart0;
++		ethernet0 = &emac;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		vpn {
++			label = "invizbox:green:lock";
++			gpios = <&pio 0 20 GPIO_ACTIVE_HIGH>;
++		};
++
++		internet {
++			label = "invizbox:green:globe";
++			gpios = <&pio 0 21 GPIO_ACTIVE_HIGH>;
++			default-state = "on";
++		};
++
++		wifi {
++			label = "invizbox:green:info";
++			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>;
++		};
++	};
++
++	reg_vcc_wifi: reg_vcc_wifi {
++		compatible = "regulator-fixed";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-name = "vcc-wifi";
++		enable-active-high;
++		gpio = <&r_pio 0 7 GPIO_ACTIVE_HIGH>;
++	};
++
++	rtl8376rb {
++		compatible = "realtek,rtl8367b";
++		gpio-sda = <&pio 3 17 GPIO_ACTIVE_HIGH>;
++		gpio-sck = <&pio 3 16 GPIO_ACTIVE_HIGH>;
++		realtek,extif1 = <1 0 1 1 1 1 1 1 2>;
++		cpu_port = <6>;
++	};
++
++	wifi_pwrseq: wifi_pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		reset-gpios = <&pio 0 10 GPIO_ACTIVE_LOW>;
++		post-power-on-delay-ms = <200>;
++	};
++};
++
++&emac {
++	pinctrl-names = "default";
++	pinctrl-0 = <&emac_rgmii_pins>;
++	phy-mode = "rgmii";
++	allwinner,force-external-phy;
++	status = "okay";
++	allwinner,rx-delay-ps = <200>;
++	allwinner,tx-delay-ps = <400>;
++
++	/delete-node/ mdio;
++	/delete-node/ mdio-mux;
++
++	fixed-link {
++		speed = <1000>;
++		full-duplex;
++		pause;
++	};
++};
++
++/* Redefine the pins to free MDIO pins for RTL switch driver */
++&emac_rgmii_pins {
++	pins = "PD0", "PD1", "PD2", "PD3", "PD4",
++		"PD5", "PD7", "PD8", "PD9", "PD10",
++		"PD12", "PD13", "PD15";
++};
++
++&mmc1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc1_pins_a>;
++	vmmc-supply = <&reg_vcc_wifi>;
++	mmc-pwrseq = <&wifi_pwrseq>;
++	bus-width = <4>;
++	non-removable;
++	status = "okay";
++
++	brcmf: brcmf@1 {
++		reg = <1>;
++		compatible = "brcm,brcmfmac";
++		interrupt-parent = <&pio>;
++		interrupts = <0 11 IRQ_TYPE_LEVEL_LOW>; /* PA11 */
++		interrupt-names = "host-wake";
++	};
++};
++
++&mmc2 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc2_8bit_pins>;
++	vmmc-supply = <&reg_vcc3v3>;
++	vqmmc-supply = <&reg_vcc3v3>;
++	bus-width = <8>;
++	non-removable;
++	status = "okay";
++};
++
++&ohci0 {
++	status = "okay";
++};
++
++&ohci1 {
++	status = "okay";
++};
++
++&ohci2 {
++	status = "okay";
++};
++
++&ohci3 {
++	status = "okay";
++};
++
++&ehci0 {
++	status = "okay";
++};
++
++&ehci1 {
++	status = "okay";
++};
++
++&ehci2 {
++	status = "okay";
++};
++
++&ehci3 {
++	status = "okay";
++};
++
++&uart0 {
++	pinctrl-0 = <&uart0_pins_a>;
++	status = "okay";
++};
++
++&usb_otg {
++	dr_mode = "host";
++	status = "okay";
++};
++
++&usbphy {
++	status = "okay";
++};

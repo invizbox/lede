@@ -89,6 +89,7 @@ ramips_setup_interfaces()
 	firewrt|\
 	hc5661a|\
 	hlk-rm04|\
+	invizboxgo|\
 	k2p|\
 	kn|\
 	kn_rc|\

@@ -1,0 +1,75 @@
+From 5249a7cff522018ed03e6fa766b582833bd9377a Mon Sep 17 00:00:00 2001
+From: Icenowy Zheng <icenowy@aosc.io>
+Date: Fri, 21 Dec 2018 12:05:41 +0800
+Subject: [PATCH 2/2] net: stmmac: dwmac-sun8i: allow to force external PHY
+
+Sometimes the MDIO mux cannot be used to decide which to use internal
+PHY or the external one (e.g. in case of a fixed-link).
+
+Allow to force the usage of the external PHY by a DT property in this
+case.
+
+Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 0f660af01a4b..e095783432a2 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -73,6 +73,7 @@ struct emac_variant {
+  * @variant:	reference to the current board variant
+  * @regmap:	regmap for using the syscon
+  * @internal_phy_powered: Does the internal PHY is enabled
++ * @force_external_phy: Is the mux forced to use external PHY
+  * @mux_handle:	Internal pointer used by mdio-mux lib
+  */
+ struct sunxi_priv_data {
+@@ -83,6 +84,7 @@ struct sunxi_priv_data {
+ 	const struct emac_variant *variant;
+ 	struct regmap_field *regmap_field;
+ 	bool internal_phy_powered;
++	bool force_external_phy;
+ 	void *mux_handle;
+ };
+ 
+@@ -875,7 +877,7 @@ static int sun8i_dwmac_set_syscon(struct stmmac_priv *priv)
+ 			 "Current syscon value is not the default %x (expect %x)\n",
+ 			 val, reg);
+ 
+-	if (gmac->variant->soc_has_internal_phy) {
++	if (gmac->variant->soc_has_internal_phy && !gmac->force_external_phy) {
+ 		if (of_property_read_bool(node, "allwinner,leds-active-low"))
+ 			reg |= H3_EPHY_LED_POL;
+ 		else
+@@ -1097,6 +1099,9 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 	}
+ 
++	gmac->force_external_phy = of_property_read_bool(dev->of_node,
++							 "allwinner,force-external-phy");
++
+ 	gmac->tx_clk = devm_clk_get(dev, "stmmaceth");
+ 	if (IS_ERR(gmac->tx_clk)) {
+ 		dev_err(dev, "Could not get TX clock\n");
+@@ -1170,10 +1175,15 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 
+ 	ndev = dev_get_drvdata(&pdev->dev);
+ 	priv = netdev_priv(ndev);
++
++	if (gmac->force_external_phy)
++		mdio_mux_syscon_switch_fn(-1, DWMAC_SUN8I_MDIO_MUX_EXTERNAL_ID,
++					  priv);
++
+ 	/* The mux must be registered after parent MDIO
+ 	 * so after stmmac_dvr_probe()
+ 	 */
+-	if (gmac->variant->soc_has_internal_phy) {
++	if (gmac->variant->soc_has_internal_phy && !gmac->force_external_phy) {
+ 		ret = get_ephy_nodes(priv);
+ 		if (ret)
+ 			goto dwmac_exit;
+-- 
+2.18.1
+
